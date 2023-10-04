@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from "react-router-dom";
+import AuthForm from "./components/auth/Auth";
+import Layout from "./components/layout/Layout";
+import HomePage from "./components/start-component/HomePage";
+import Jobs from "./components/jobs/Jobs";
+import { useSelector } from "react-redux";
+import JobForm from "./components/job-form/JobForm";
 
 function App() {
+
+  const theresToken = useSelector((state)=>state.token.token)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        {!theresToken && <Route path="/auth" element={<AuthForm />} />}
+         <Route path="/job-listings" element={<Jobs />}/>
+         <Route path="/job-form" element={<JobForm />} />
+      </Routes>
+    </Layout>
   );
 }
 

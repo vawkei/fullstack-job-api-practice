@@ -1,0 +1,27 @@
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 5rem;
+    background-color: #38015c;
+    padding: 0 10%;
+    color: white;
+    cursor: pointer;
+}
+.header ul{
+    display: flex;
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.header a{
+    color: white;
+    text-decoration: none;
+}
+.header li{
+    cursor: pointer;
+}
+.active{
+    border-bottom:1px solid white;
+}

@@ -3,42 +3,87 @@ const Jobs = require("../models/jobs");
 const getAllJobs = async (req, res) => {
   const { name, email, password } = req.body;
 
-  const jobs = await Jobs.find({createdBy:req.user.userId});
-  console.log(jobs)
-
-  //res.status(200).json({token:req.user.token,user:req.user.name})
-  res.status(200).json({jobs:jobs,user:req.user.name });
+  const jobs = await Jobs.find({ createdBy: req.user.userId }).sort(
+    "-createdAt"
+  );
+  //console.log(jobs)
+  res
+    .status(200)
+    .json({ jobs: jobs, user: req.user.name, nbhits: jobs.length });
 };
 
-const getSingleJob = (req, res) => {
-  res.send("<h1>Get a single job</h1>");
-};
-
-const createJob =async (req, res) => {
+const getSingleJob =async (req, res) => {
   
-    
-    req.body.createdBy = req.user.userId
-    console.log(req.body);
-    try {
+  try{
+    const jobId = req.params.id;
+    const userId = req.user.userId;
+
+    const job =await Jobs.findOne({_id:jobId,createdBy:userId})
+    if(!job){
+      return res.status(404).json({msg:`Job id:${id} is not available`})
+    }
+    res.status(200).json(job)
+  }catch(error){
+    res.status(500).json(error)
+  }
+  
+};
+
+const createJob = async (req, res) => {
+  req.body.createdBy = req.user.userId;
+  //console.log(req.body);
+  try {
     const { company, position } = req.body;
     if (!company || !position) {
       return res.status(401).json({ msg: "Inputs should'nt be EMPTEA!!!" });
     }
-    const job =await Jobs.create(req.body)
+    const job = await Jobs.create(req.body);
     res.status(201).json(job);
   } catch (error) {
-    res.status(401).json({error});
+    res.status(500).json({ error });
+  }
+};
+
+const updateJob = async (req, res) => {
+  try {
+    const jobId = req.params.id;
+    const userId = req.user.userId;
+    const company = req.body.company;
+    const position = req.body.position;
+    //console.log({jobId,userId})
+
+    if(!company || !position){
+      return res.status(401).json({msg:"Inputs can't be empty"})
+    }
+    const job = await Jobs.findOneAndUpdate({_id: jobId, createdBy:userId }, req.body, {
+      new: true,
+      runValidators:true
+    });
+    if(!job){
+     return res.status(404).json({msg:`job with id:${jobId} doesn't exist.`})
+    }
+    res.status(200).json(job)
+  } catch (error) {
+    res.status(500).json(error);
   }
 
-  //res.send("<h1>Create a job</h1>")
 };
 
-const updateJob = (req, res) => {
-  res.send("<h1>Update a job</h1>");
-};
+const deleteJob = async (req, res) => {
+  try {
+    const jobId = req.params.id;
+    const userId = req.user.userId;
 
-const deleteJob = (req, res) => {
-  res.send("<h1>Delete a job</h1>");
+    const job = await Jobs.findOneAndRemove({ _id: jobId, createdBy: userId });
+    if (!job) {
+      return res
+        .status(401)
+        .json({ msg: `Job with id: ${jobId} doesn't exist` });
+    }
+    res.status(200).json(job);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
 module.exports = { getAllJobs, getSingleJob, createJob, updateJob, deleteJob };

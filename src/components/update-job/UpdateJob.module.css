@@ -1,0 +1,32 @@
+.container{
+    background-color: #38015c;
+    padding: 1rem;
+    margin: 6rem auto;
+    width: 75%;
+    max-width: 25rem;
+}
+.container label{
+    color: white;
+    display: block;
+    margin: 0.2rem 0;
+}
+.container input{
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 6px;
+    margin-top: 0.7rem;
+    font: inherit;
+}
+
+.action{
+    text-align: center;
+    padding: 1rem;
+}
+.action button{
+    background-color: #d5afed;
+    padding: 0.5rem 1.2rem;
+    border-radius: 6px;
+}
+.action button:hover{
+    cursor: pointer;
+}

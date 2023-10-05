@@ -1,0 +1,23 @@
+.list{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.list .first-div{
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}
+.list .second-div{
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}
+.list .job{
+    margin-top: 2rem;
+}
+.icons{
+    display: flex;
+    gap: 1rem;
+}

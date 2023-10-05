@@ -5,6 +5,7 @@ import HomePage from "./components/start-component/HomePage";
 import Jobs from "./components/jobs/Jobs";
 import { useSelector } from "react-redux";
 import JobForm from "./components/job-form/JobForm";
+import UpdateJob from "./components/update-job/UpdateJob";
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         {!theresToken && <Route path="/auth" element={<AuthForm />} />}
          <Route path="/job-listings" element={<Jobs />}/>
          <Route path="/job-form" element={<JobForm />} />
+          <Route path="/update-job/:id" element={<UpdateJob />}  />
       </Routes>
     </Layout>
   );
